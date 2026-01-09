@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Renamer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Media Renamer</h1>
+            <p class="subtitle">Rename movies, TV shows, and music using online metadata</p>
+        </header>
+
+        <!-- Settings Panel -->
+        <section id="settings-panel" class="panel">
+            <h2>Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-group">
+                    <label for="tmdb-api-key">TMDB API Key</label>
+                    <div class="input-group">
+                        <input type="password" id="tmdb-api-key" placeholder="Enter your TMDB API key">
+                        <button id="toggle-api-key" class="btn-icon" title="Show/Hide">
+                            <span class="icon">&#128065;</span>
+                        </button>
+                    </div>
+                    <small><a href="https://www.themoviedb.org/settings/api" target="_blank">Get a free API key</a></small>
+                </div>
+                <div class="setting-group">
+                    <label for="media-dir">Media Directory</label>
+                    <div class="input-group">
+                        <input type="text" id="media-dir" placeholder="/media" value="/media">
+                        <button id="browse-dir" class="btn-icon" title="Browse">
+                            <span class="icon">&#128193;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label for="mode-select">Mode</label>
+                    <select id="mode-select">
+                        <option value="auto">Auto-detect</option>
+                        <option value="movies">Movies only</option>
+                        <option value="tv">TV Shows only</option>
+                        <option value="music">Music only</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="dry-run">
+                        <span>Dry Run (preview only)</span>
+                    </label>
+                </div>
+            </div>
+            <button id="save-settings" class="btn btn-primary">Save Settings</button>
+            <button id="scan-files" class="btn btn-success">Scan Directory</button>
+        </section>
+
+        <!-- Directory Browser Modal -->
+        <div id="browser-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Browse Directories</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="browser-path">
+                        <button id="browser-up" class="btn-icon" title="Go Up">&#8593;</button>
+                        <span id="browser-current-path">/</span>
+                    </div>
+                    <ul id="browser-list" class="browser-list"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button id="browser-select" class="btn btn-primary">Select</button>
+                    <button class="btn modal-close">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Files List -->
+        <section id="files-panel" class="panel" style="display: none;">
+            <div class="panel-header">
+                <h2>Files <span id="file-count" class="badge">0</span></h2>
+                <div class="panel-actions">
+                    <button id="select-all" class="btn btn-sm">Select All</button>
+                    <button id="rename-selected" class="btn btn-success btn-sm">Rename Selected</button>
+                </div>
+            </div>
+            <div id="files-list" class="files-list"></div>
+        </section>
+
+        <!-- Search Modal -->
+        <div id="search-modal" class="modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h3 id="search-modal-title">Search</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="search-form">
+                        <input type="text" id="search-query" placeholder="Enter search query">
+                        <button id="search-btn" class="btn btn-primary">Search</button>
+                    </div>
+                    <div id="search-results" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
