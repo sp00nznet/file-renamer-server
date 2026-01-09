@@ -1,43 +1,81 @@
 # Media Renamer
 
-A bash script that renames movies, TV shows, and music files using online metadata.
+A media file renaming tool with both CLI and Web interfaces. Renames movies, TV shows, and music files using online metadata.
 
 **Output formats:**
 - Movies: `Movie Name (Year).ext`
 - TV Shows: `Show Name - S01E02 - Episode Title.ext`
 - Music: `Artist - Track Title.ext`
 
-## Quick Start
+## Web Application (Docker)
 
-1. Install dependencies:
+The easiest way to use Media Renamer is through the web interface running in Docker.
+
+### Quick Start with Docker
+
+1. Clone the repository and navigate to it:
    ```bash
-   sudo apt install curl jq   # Debian/Ubuntu
-   brew install curl jq       # macOS
+   git clone <repository-url>
+   cd file-renamer-server
    ```
 
-2. Run the interactive launcher:
+2. Create a `.env` file (or copy from example):
    ```bash
-   ./rename.sh
+   cp .env.example .env
    ```
 
-   Or run directly:
+3. Edit `.env` and set your configuration:
    ```bash
-   # Movies/TV (requires TMDB API key)
-   ./file_renamer.sh -k YOUR_API_KEY /path/to/videos
-
-   # Music (no API key needed)
-   ./file_renamer.sh -m music /path/to/music
+   TMDB_API_KEY=your_tmdb_api_key_here
+   MEDIA_PATH=/path/to/your/media
+   SECRET_KEY=your-secret-key-here
    ```
 
-## Interactive Mode
+4. Build and run with Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
 
-Run `./rename.sh` for a guided experience:
-- Choose media type (Movies, TV Shows, Music, or Auto-detect)
-- Select target directory
-- Enable dry run to preview changes
-- Optionally enable logging
+5. Access the web interface at: **http://localhost:5000**
+
+### Docker Run (Alternative)
+
+```bash
+docker build -t media-renamer .
+
+docker run -d \
+  --name media-renamer \
+  -p 5000:5000 \
+  -e TMDB_API_KEY=your_api_key \
+  -v /path/to/your/media:/media \
+  media-renamer
+```
+
+### Web Interface Features
+
+- **Visual file browser** - Navigate and select directories
+- **File scanning** - Automatically detects movies, TV shows, and music
+- **Search & match** - Search TMDB/MusicBrainz for correct metadata
+- **Preview renames** - See what files will be renamed before applying
+- **Batch operations** - Select multiple files and rename at once
+- **Dry run mode** - Preview changes without actually renaming
 
 ## Command Line Usage
+
+### Install Dependencies
+
+```bash
+sudo apt install curl jq   # Debian/Ubuntu
+brew install curl jq       # macOS
+```
+
+### Interactive Launcher
+
+```bash
+./rename.sh
+```
+
+### Direct CLI Usage
 
 ```bash
 ./file_renamer.sh [options] [directory]
@@ -78,7 +116,26 @@ Get a free TMDB API key at: https://www.themoviedb.org/settings/api
 
 **TV Patterns:** `S01E02`, `1x02`, `Season.1.Episode.2`
 
-See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed information.
+## Project Structure
+
+```
+file-renamer-server/
+├── app/                    # Flask web application
+│   ├── __init__.py         # App factory
+│   ├── routes.py           # API endpoints
+│   ├── renamer.py          # Core renaming logic
+│   ├── static/             # CSS and JavaScript
+│   └── templates/          # HTML templates
+├── file_renamer.sh         # Original bash script
+├── rename.sh               # Interactive CLI launcher
+├── run.py                  # Flask entry point
+├── Dockerfile              # Docker image definition
+├── docker-compose.yml      # Docker Compose config
+├── requirements.txt        # Python dependencies
+└── .env.example            # Example environment config
+```
+
+See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed CLI documentation.
 
 ## License
 
