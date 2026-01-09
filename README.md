@@ -1,25 +1,21 @@
 # Media Renamer
 
-A media file renaming tool with both CLI and Web interfaces. Renames movies, TV shows, and music files using online metadata.
+A web-based media file renaming tool running in Docker. Renames movies, TV shows, and music files using online metadata.
 
 **Output formats:**
 - Movies: `Movie Name (Year).ext`
 - TV Shows: `Show Name - S01E02 - Episode Title.ext`
 - Music: `Artist - Track Title.ext`
 
-## Web Application (Docker)
+## Quick Start with Docker
 
-The easiest way to use Media Renamer is through the web interface running in Docker.
-
-### Quick Start with Docker
-
-1. Clone the repository and navigate to it:
+1. Clone the repository:
    ```bash
    git clone <repository-url>
    cd file-renamer-server
    ```
 
-2. Create a `.env` file (or copy from example):
+2. Create a `.env` file:
    ```bash
    cp .env.example .env
    ```
@@ -31,14 +27,14 @@ The easiest way to use Media Renamer is through the web interface running in Doc
    SECRET_KEY=your-secret-key-here
    ```
 
-4. Build and run with Docker Compose:
+4. Build and run:
    ```bash
    docker-compose up -d
    ```
 
 5. Access the web interface at: **http://localhost:5000**
 
-### Docker Run (Alternative)
+## Docker Run (Alternative)
 
 ```bash
 docker build -t media-renamer .
@@ -51,7 +47,7 @@ docker run -d \
   media-renamer
 ```
 
-### Web Interface Features
+## Features
 
 - **Visual file browser** - Navigate and select directories
 - **File scanning** - Automatically detects movies, TV shows, and music
@@ -59,44 +55,6 @@ docker run -d \
 - **Preview renames** - See what files will be renamed before applying
 - **Batch operations** - Select multiple files and rename at once
 - **Dry run mode** - Preview changes without actually renaming
-
-## Command Line Usage
-
-### Install Dependencies
-
-```bash
-sudo apt install curl jq   # Debian/Ubuntu
-brew install curl jq       # macOS
-```
-
-### Interactive Launcher
-
-```bash
-./rename.sh
-```
-
-### Direct CLI Usage
-
-```bash
-./file_renamer.sh [options] [directory]
-```
-
-| Option | Description |
-|--------|-------------|
-| `-h` | Show help |
-| `-k KEY` | Set TMDB API key (for movies/TV) |
-| `-m MODE` | Mode: `movies`, `tv`, `music`, or `auto` |
-| `-d` | Dry run (preview only) |
-| `-l FILE` | Log operations to file |
-
-**Examples:**
-```bash
-./file_renamer.sh /path/to/media              # Auto-detect all types
-./file_renamer.sh -m movies /path/to/videos   # Movies only
-./file_renamer.sh -m tv /path/to/videos       # TV shows only
-./file_renamer.sh -m music /path/to/music     # Music only (no API key needed)
-./file_renamer.sh -d /path/to/media           # Preview changes
-```
 
 ## APIs Used
 
@@ -126,16 +84,13 @@ file-renamer-server/
 │   ├── renamer.py          # Core renaming logic
 │   ├── static/             # CSS and JavaScript
 │   └── templates/          # HTML templates
-├── file_renamer.sh         # Original bash script
-├── rename.sh               # Interactive CLI launcher
 ├── run.py                  # Flask entry point
 ├── Dockerfile              # Docker image definition
 ├── docker-compose.yml      # Docker Compose config
 ├── requirements.txt        # Python dependencies
-└── .env.example            # Example environment config
+├── .env.example            # Example environment config
+└── archive/                # Original CLI scripts (deprecated)
 ```
-
-See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed CLI documentation.
 
 ## License
 
